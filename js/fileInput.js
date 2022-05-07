@@ -1,41 +1,37 @@
 document.querySelector("input").addEventListener("change", event => {
   const files = event.target.files;
-  console.log(videoElem)
+
   let output = [];
   for(const file of files) {
-    console.log(file)
-  
-    allUploadedFiles.push(file)
-    setAudioTrack(allUploadedFiles.length - 1);
-  
-    // video.createAnalyser();
-    // video.load();
-    // console.log(f.dataTransfer.items[i].webkitGetAsEntry());
-    output.push("<li><strong>", file.name, "</strong> (", file.type || "n/a", ") - ",
-      file.size, " bytes, last modified: ",
-      file.lastModifiedDate ? file.lastModifiedDate.toLocaleDateString() : "n/a",
-      "</li>");
+    if(file.type.match("audio.*") && !allUploadedFiles.find(e => searchFiles(e, file))) {
+      allUploadedFiles.push(file)
+      setAudioTrack(allUploadedFiles.length - 1);
     }
+  }
 
-  console.log(output);
-
-
+  function searchFiles(newFile, oldFile) {
+    return newFile.name == oldFile.name &&
+      newFile.type == oldFile.type &&
+      newFile.size == oldFile.size &&
+      newFile.lastModified == oldFile.lastModified;
+  }
 
 });
 
 const fileUploadElem = document.querySelector(".file-upload");
 
 function setAudioTrack(index) {
+  if(allUploadedFiles.length == 0) return;
   const track = allUploadedFiles[index];
   playIndex = index;
   
   videoElem.src = URL.createObjectURL(track);
-  videoElem.play();
-  videoElem.volume = .2;
   currentTime.textContent = formatTime(0);
-
+  
   videoElem.addEventListener("canplaythrough", e => {
     duration.textContent = formatTime(videoElem.duration);
+    videoElem.play();
+    updatePauseButton();
   }, {once: true});
 }
 

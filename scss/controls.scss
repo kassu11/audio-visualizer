@@ -4,29 +4,58 @@
 	position: absolute;
 	transform: translateX(-50%);
 	left: 50%;
-	bottom: 125px;
+	bottom: 100px;
 	width: 300px;
-	height: 100px;
+	height: 80px;
 	background-color: $dark-main-light;
-	display: flex;
 	padding-top: 10px;
 	box-sizing: border-box;
-	gap: 10px;
-	place-content: center;
 	border-radius: 5px;
+	
+	.header {
+		display: flex;
+		gap: 10px;
+		place-content: center;
+		margin-bottom: 15px;
+	}
 
-	.pause-button {
+	.middle-button {
 		position: relative;
 		background-color: $light-main;
-		height: 42px;
-		width: 42px;
+		height: 32px;
+		width: 32px;
 		border-radius: 50%;
 		display: grid;
 		place-content: center;
 		cursor: pointer;
 
-		svg {
-			transform: scale(1);
+		&.play:after {
+			content: "";
+			position: relative;
+			width: 0; 
+			height: 0; 
+			border-top: 8px solid transparent;
+			border-bottom: 8px solid transparent;
+			border-left: 14px solid black;
+			right: -2px;
+		}
+
+		&.pause:after, &.pause:before {
+			content: "";
+			width: 4px;
+			height: 16px;
+			position: absolute;
+			background-color: black;
+			top: 8px;
+			border-radius: 4px;
+		}
+
+		&.pause:after {
+			left: 10px;
+		}
+
+		&.pause:before {
+			right: 10px;
 		}
 	}
 
@@ -34,9 +63,83 @@
 		position: relative;
 		height: 32px;
 		width: 32px;
-		top: 5px;
 		display: grid;
 		place-content: center;
 		cursor: pointer;
+		fill: rgb(209, 209, 209);
+	}
+
+	.footer {
+		position: relative;
+		top: 42px;
+
+		.volume-slider-container {
+			position: absolute;
+			bottom: 25px;
+			width: calc(100% - 120px);
+			max-width: 800px;
+			left: 50%;
+			transform: translateX(-50%);
+			height: 30px;
+			cursor: pointer;
+			display: grid;
+		
+			> div {
+				pointer-events: none;
+				user-select: none;
+				left: 0px;
+			}
+		
+			.volume-slider-bg {
+				position: absolute;
+				width: 100%;
+				height: 5px;
+				place-self: center;
+				background-color: $gray-main;
+				border-radius: 5px;
+			}
+		
+			.volume-slider-fill {
+				position: absolute;
+				height: 5px;
+				width: 100%;
+				place-self: center;
+				background-color: $light-main;
+				border-radius: 5px;
+			}
+		
+			.volume-slider-ball {
+				position: absolute;
+				width: 11px;
+				height: 11px;
+				left: 100%;
+				place-self: center;
+				background-color: white;
+				border-radius: 50%;
+				transform: translateX(-50%);
+				box-shadow: 0 0 2px black;
+			}
+		
+			.volume-slider-hover {
+				position: relative;
+				padding: 10px;
+				background-color: purple;
+				width: max-content;
+				top: -100px;
+				display: none;
+			}
+		
+			.volume-min, .volume-max {
+				position: absolute;
+				top: 7px;
+			}
+		
+			.volume-min {
+				right: calc(100% + 10px);
+			}
+			.volume-max {
+				left: calc(100% + 10px);
+			}
+		}
 	}
 }

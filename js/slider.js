@@ -31,7 +31,7 @@ function setAudioTime(value) {
 sliderContainer.addEventListener("mousedown", e => {
 	e.preventDefault();
 	if(videoElem.src == "") return;
-	console.log(videoElem.src);
+
 	window.onmousemove = mouseMove;
 	window.onmouseup = mouseUp;
 
