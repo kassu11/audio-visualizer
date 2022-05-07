@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Audio Visualization</title>
+		<link rel="stylesheet" href="./css/index.css">
+		<link rel="stylesheet" href="./css/slider.css">
+		<link rel="stylesheet" href="./css/controls.css">
+		<link rel="stylesheet" href="./css/fileDrop.css">
+	</head>
+	<body>
+		<video></video>
+		<canvas></canvas>
+		<div class="input">
+		</div>
+		<div class="file-upload">
+			<div class="container">
+				<i class="gg-file-add"></i>
+				<h2>Drag & drop files here</h2>
+				<p>or</p>
+				<div class="browse">
+					<p>Browse Files</p>
+					<input type="file" id="files" name="files[]" multiple/>
+				</div>
+			</div>
+		</div>
+		<div class="footer">
+			<div class="controls-container">
+				<div class="prev-button">
+					<svg role="img" height="16" width="16"><path d="M3.3 1a.7.7 0 01.7.7v5.15l9.95-5.744a.7.7 0 011.05.606v12.575a.7.7 0 01-1.05.607L4 9.149V14.3a.7.7 0 01-.7.7H1.7a.7.7 0 01-.7-.7V1.7a.7.7 0 01.7-.7h1.6z"></path></svg>
+				</div>
+				<div class="pause-button">
+					<svg role="img" height="16" width="16"><path d="M3 1.713a.7.7 0 011.05-.607l10.89 6.288a.7.7 0 010 1.212L4.05 14.894A.7.7 0 013 14.288V1.713z"></path></svg>
+				</div>
+				<div class="next-button">
+					<svg role="img" height="16" width="16"><path d="M12.7 1a.7.7 0 00-.7.7v5.15L2.05 1.107A.7.7 0 001 1.712v12.575a.7.7 0 001.05.607L12 9.149V14.3a.7.7 0 00.7.7h1.6a.7.7 0 00.7-.7V1.7a.7.7 0 00-.7-.7h-1.6z"></path></svg>
+				</div>
+			</div>
+			<div class="slider-container">
+				<div class="slider-bg"></div>
+				<div class="slider-fill"></div>
+				<div class="slider-ball"></div>
+				<div class="slider-hover">
+					<p class="time">0:00</p>
+					<p class="difference">+2</p>
+				</div>
+				<p class="current-time">0:00</p>
+				<p class="duration">0:00</p>
+			</div>
+		</div>
+	</body>
+</html>
+
+<script src="./js/index.js"></script>
+<script src="./js/fileInput.js"></script>
+<script src="./js/slider.js"></script>
+<script src="./js/controls.js"></script>
+
+<script src="./js/requestAnimationFrame.js"></script>

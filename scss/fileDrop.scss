@@ -1,0 +1,90 @@
+@import "variables";
+
+.file-upload {
+	position: absolute;
+	display: grid;
+	inset: 0px;
+	pointer-events: none;
+
+	.container {
+		position: absolute;
+		border-radius: 25px;
+		border: 5px solid $dark-main-light;
+		text-align: center;
+		display: grid;
+		place-content: center;
+		width: 400px;
+		height: 300px;
+		place-self: center;
+		box-sizing: border-box;
+		transition: all .15s;
+		opacity: .4;
+
+		.gg-file-add {
+			--ggs: 2;
+			margin: auto;
+			margin-block: 60px 30px;
+			color: $light-main;
+		}
+
+		h2 {
+			position: relative;
+			margin-bottom: 10px;
+			color: $light-main;
+		}
+
+		.browse {
+			position: relative;
+			background: $dark-main-light;
+			height: 50px;
+			width: 250px;
+			border: 2px solid $dark-main-light;
+			display: grid;
+			place-content: center;
+			margin-top: 20px;
+			pointer-events: all;
+			margin-inline: auto;
+			transition: background .2s, filter .2s;
+			cursor: pointer;
+
+			&:hover {
+				filter: brightness(1.2);
+			}
+
+			p {
+				font-size: 25px;
+				font-weight: 500;
+			}
+
+			input {
+				position: absolute;
+				opacity: 0;
+				inset: 0px;
+				cursor: pointer;
+			}
+		}
+	}
+
+	&.drag-over {
+		.container {
+			width: 100%;
+			height: 100%;
+			border-radius: 0px;
+			z-index: 1;
+			background-color: $dark-main-light;
+			border-color: white;
+			opacity: 1;
+
+			.browse {
+				background-color: $dark-main-light-2;
+				p {
+					filter: brightness(1.1);
+					text-shadow: 0 0 3px white;
+				}
+				input {
+					position: fixed;
+				}
+			}
+		}
+	}
+}
