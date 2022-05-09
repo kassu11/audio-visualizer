@@ -1,1 +1,1 @@
-.canvasContainer{position:absolute;inset:0px;display:grid}.canvasContainer #bg{margin-inline:auto}/*# sourceMappingURL=canvas.css.map */
+.canvasContainer{position:absolute;inset:0px;display:grid;pointer-events:none;z-index:2}.canvasContainer #bg{margin-inline:auto}/*# sourceMappingURL=canvas.css.map */

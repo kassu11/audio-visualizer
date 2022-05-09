@@ -3,7 +3,7 @@ document.querySelector("input").addEventListener("change", event => {
 
   let output = [];
   for(const file of files) {
-    if(file.type.match("audio.*") && !allUploadedFiles.find(e => searchFiles(e, file))) {
+    if((file.type.match("audio.*") || file.type.match("video.*")) && !allUploadedFiles.find(e => searchFiles(e, file))) {
       allUploadedFiles.push(file)
       setAudioTrack(allUploadedFiles.length - 1);
     }

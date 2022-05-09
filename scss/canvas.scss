@@ -2,7 +2,9 @@
 	position: absolute;
 	inset: 0px;
 	display: grid;
-
+	pointer-events: none;
+	z-index: 2;
+	
 	#bg {
 		margin-inline: auto;
 	}

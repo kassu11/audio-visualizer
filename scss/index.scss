@@ -53,3 +53,12 @@ p, h1, h2, h3 {
 	} 
 }
 
+video {
+	position: absolute;
+	width: 100%;
+	height: calc(100% - 200px);
+	top: 0px;
+	left: 0px;
+	pointer-events: none;
+	z-index: 1;
+}
