@@ -1,13 +1,15 @@
 document.querySelector("input").addEventListener("change", event => {
   const files = event.target.files;
+  let newFile = false;
 
   let output = [];
   for(const file of files) {
     if((file.type.match("audio.*") || file.type.match("video.*")) && !allUploadedFiles.find(e => searchFiles(e, file))) {
-      allUploadedFiles.push(file)
-      setAudioTrack(allUploadedFiles.length - 1);
+      allUploadedFiles.push(file);
+      newFile = true;
     }
   }
+  setAudioTrack(allUploadedFiles.length - 1);
 
   function searchFiles(newFile, oldFile) {
     return newFile.name == oldFile.name &&
@@ -24,6 +26,8 @@ function setAudioTrack(index) {
   if(allUploadedFiles.length == 0) return;
   const track = allUploadedFiles[index];
   playIndex = index;
+
+  console.log("??")
   
   videoElem.src = URL.createObjectURL(track);
   currentTime.textContent = formatTime(0);
@@ -32,6 +36,7 @@ function setAudioTrack(index) {
     duration.textContent = formatTime(videoElem.duration);
     videoElem.play();
     updatePauseButton();
+    audioWaveLoad(index);
   }, {once: true});
 }
 

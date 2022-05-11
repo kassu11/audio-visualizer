@@ -1,4 +1,5 @@
 const sliderContainer = document.querySelector(".slider-container");
+const audioWaveShade = sliderContainer.querySelector(".audioWaveShade");
 const sliderBG = sliderContainer.querySelector(".slider-bg");
 const sliderFill = sliderContainer.querySelector(".slider-fill");
 const sliderBall = sliderContainer.querySelector(".slider-ball");
@@ -18,7 +19,9 @@ function setSliderValue(value) {
 	const v = Math.min(Math.max(value, 0), 1);
 	sliderFill.style.width = `${v * 100}%`;
 	sliderBall.style.left = `${v * 100}%`;
-	sliderHover.style.left = `${v * 100}%`;
+	audioWaveShade.style.left = `${v * 100}%`;
+	audioWaveShade.style.width = `${100 - (v * 100)}%`;
+
 
 	currentTime.textContent = formatTime(videoElem.duration * v);
 }
