@@ -26,8 +26,6 @@ function setAudioTrack(index) {
   if(allUploadedFiles.length == 0) return;
   const track = allUploadedFiles[index];
   playIndex = index;
-
-  console.log("??")
   
   videoElem.src = URL.createObjectURL(track);
   currentTime.textContent = formatTime(0);

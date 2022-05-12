@@ -14,7 +14,6 @@
 	canvas#audioWave {
     position: absolute;
 		place-self: center;
-		clip-path: polygon(0% 0%, 100% 0%, 100% 42%, 0% 42%, 0% 60%, 0% 100%, 100% 100%, 100% 60%, 0% 60%);
 	}
 
 	> div {
@@ -39,6 +38,7 @@
 		place-self: center;
 		background-color: $gray-main;
 		border-radius: 5px;
+		box-shadow: -10px 0px 0px 2px #181818, 10px 0px 0px 2px #181818;
 	}
 
 	.slider-fill {

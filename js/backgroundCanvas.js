@@ -11,7 +11,7 @@ videoElem.addEventListener("play", e => {
 	audioSrc.connect(audioCtx.destination);
 	
 	analyser.fftSize = 4096;
-	analyser.smoothingTimeConstant = 0.9;
+	analyser.smoothingTimeConstant = 0.8;
 	const frequencyData = new Uint8Array(analyser.frequencyBinCount);
 
 	canvasRenderF = renderBackgroundCanvas2;

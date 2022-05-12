@@ -19,7 +19,11 @@ function audioWaveLoad(index) {
   const visualizeAudio2 = index => {
 		allUploadedFiles.at(index ?? -1).arrayBuffer()
         .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
-        .then(audioBuffer => visualize2(audioBuffer.getChannelData(0)));
+        .then(audioBuffer => {
+          const data = audioBuffer.getChannelData(0);
+          visualize2(data);
+          window.onresize = () => visualize2(data);
+        });
   };
 
   // console.log(arr.at(-1))
@@ -67,8 +71,8 @@ function audioWaveLoad(index) {
 		const {width} = sliderContainer.getBoundingClientRect();
     const ctx2 = canvas.getContext("2d");
 
-		const bonusHeight = 7;
-		const maxHeight = 21;
+		const bonusHeight = 6;
+		const maxHeight = 22;
 
 		const gap = 1;
 		const barWidth = 2;
@@ -79,14 +83,12 @@ function audioWaveLoad(index) {
     const datas = normalizeData(filterData(audioBuffer, barAmount));
 		canvas.width = (width - width % total) - gap;
 		canvas.height = (maxHeight + bonusHeight) * 2;
-		console.log(datas)
 
 		for(let i = 0; i < datas.length; i++) {
-			
 			const value = Math.ceil(datas[i] * maxHeight) + bonusHeight;
 			ctx2.fillStyle = `hsl(${Math.round(i / barAmount * 360)}deg 70% 80%)`;
 			ctx2.fillStyle = `#e0e0e0`;
-			ctx2.fillRect(i * total, maxHeight + bonusHeight - value, barWidth, value * 2);
+			ctx2.fillRect(i * total, maxHeight + bonusHeight - value, barWidth, value * 2 + 1);
 		}
   }
   // we have to connect the MediaElementSource with the analyser 
