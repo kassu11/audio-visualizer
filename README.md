@@ -15,4 +15,4 @@ Halusin testata miten [Web Audio API](https://developer.mozilla.org/en-US/docs/W
 
 ## Testattava demo
 
-> [Linkki demoon](https://github.com/kassu11/audio-visualizer)
+> [Linkki demoon](https://kassu11.github.io/audio-visualizer/)
