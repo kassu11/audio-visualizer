@@ -1,39 +1,57 @@
-function audioWaveLoadingAnimation() {
+const waveCanvas = document.querySelector("canvas#audioWave");
+const waveCanvasCtx = waveCanvas.getContext("2d");
+let audioWaveAnimationF = null;
+let audioWaveState = 200;
 
+function audioWaveLoadingAnimation() {
+  const {width} = sliderContainer.getBoundingClientRect();
+  const bonusHeight = 6;
+  const maxHeight = 22;
+
+  const gap = 1;
+  const barWidth = 2;
+  const total = (gap + barWidth);
+  const barAmount = Math.floor(width / total);
+
+  waveCanvas.width = (width - width % total) - gap;
+  waveCanvas.height = (maxHeight + bonusHeight) * 2;
+
+  audioWaveState -= .02;
+
+  for(let i = 0; i < barAmount; i++) {
+    const value2 = Math.abs(Math.sin(i / 20 + audioWaveState)) * maxHeight + bonusHeight;
+    // const value = (i + audioWaveState) % 20;
+    // const value2 = value <= 1 ? 10 : value;
+    waveCanvasCtx.fillStyle = `hsl(${Math.round(i / barAmount * 360)}deg 70% 80%)`;
+    waveCanvasCtx.fillStyle = `#e0e0e0`;
+    waveCanvasCtx.fillRect(i * total, maxHeight + bonusHeight - value2, barWidth, value2 * 2 + 1);
+  }
 }
 
-function audioWaveLoad(index) {
-  // let ctx = new AudioContext();
-  // let audio = video.current;
-  // let audioSrc = ctx.createMediaElementSource(audio);
-  // let analyser = ctx.createAnalyser();
-  // audio.volume = 0.1;
-
+function audioWaveLoad(index = 0) {
   const audioContext = new AudioContext();
-  // const visualizeAudio = url => {
-  //   fetch(url)
-  //     .then(response => response.arrayBuffer())
-  //     .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
-  //     .then(audioBuffer => visualize(audioBuffer));
-  // };
-  const visualizeAudio2 = index => {
-		allUploadedFiles.at(index ?? -1).arrayBuffer()
-        .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
-        .then(audioBuffer => {
-          const data = audioBuffer.getChannelData(0);
-          visualize2(data);
-          window.onresize = () => visualize2(data);
-        });
-  };
 
-  // console.log(arr.at(-1))
+  if(allUploadedFiles[index].audioWave) {
+    visualize2(allUploadedFiles[index].audioWave);
+    window.onresize = () => visualize2(allUploadedFiles[index].audioWave);
+  } else {
+    visualizeAudio2(index);
+    audioWaveState = 200;
+    audioWaveAnimationF = audioWaveLoadingAnimation;
+  }
 
+  function visualizeAudio2(index) {
+    allUploadedFiles[index].file.arrayBuffer()
+    .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+    .then(audioBuffer => {
+      const data = audioBuffer.getChannelData(0);
+      allUploadedFiles[index].audioWave = data;
+      visualize2(data);
+      window.onresize = () => visualize2(data);
+    });
+  }
 
-  // visualizeAudio(audio.src);
-  visualizeAudio2(index);
-  // visualizeAudio2(audio);
-
-  const filterData = (rawData, samples = 250) => {
+  function filterData(rawData, samples = 250) {
     const blockSize = Math.floor(rawData.length / samples); // the number of samples in each subdivision
     const filteredData = [];
     for (let i = 0; i < samples; i++) {
@@ -47,29 +65,15 @@ function audioWaveLoad(index) {
     return filteredData;
   }
 
-  const normalizeData = filteredData => {
+  function normalizeData(filteredData) {
     const multiplier = Math.pow(Math.max(...filteredData), -1);
     return filteredData.map(n => n * multiplier);
   }
 
-  function visualize(rawData) {
-    const datas = normalizeData(filterData(rawData));
-		const {width} = sliderContainer.getBoundingClientRect()
-    const canvas = document.querySelector("canvas#audioWave");
-    const ctx2 = canvas.getContext("2d");
-    canvas.width = width;
-    
-    console.log(datas);
-    for(let i = 0; i < datas.length; i++) {
-      ctx2.fillStyle = `rgb(${255}, ${255}, ${255})`;
-      ctx2.fillRect(i * 7, 0, 5, datas[i] * 20);
-    }
-  }
-
 	function visualize2(audioBuffer) {
-    const canvas = document.querySelector("canvas#audioWave");
 		const {width} = sliderContainer.getBoundingClientRect();
-    const ctx2 = canvas.getContext("2d");
+    audioWaveAnimationF = null;
+    if(playIndex !== index) return;
 
 		const bonusHeight = 6;
 		const maxHeight = 22;
@@ -78,35 +82,16 @@ function audioWaveLoad(index) {
 		const barWidth = 2;
 		const total = (gap + barWidth);
 		const barAmount = Math.floor(width / total);
-
 		
     const datas = normalizeData(filterData(audioBuffer, barAmount));
-		canvas.width = (width - width % total) - gap;
-		canvas.height = (maxHeight + bonusHeight) * 2;
+		waveCanvas.width = (width - width % total) - gap;
+		waveCanvas.height = (maxHeight + bonusHeight) * 2;
 
 		for(let i = 0; i < datas.length; i++) {
 			const value = Math.ceil(datas[i] * maxHeight) + bonusHeight;
-			ctx2.fillStyle = `hsl(${Math.round(i / barAmount * 360)}deg 70% 80%)`;
-			ctx2.fillStyle = `#e0e0e0`;
-			ctx2.fillRect(i * total, maxHeight + bonusHeight - value, barWidth, value * 2 + 1);
+			waveCanvasCtx.fillStyle = `hsl(${Math.round(i / barAmount * 360)}deg 70% 80%)`;
+			waveCanvasCtx.fillStyle = `#e0e0e0`;
+			waveCanvasCtx.fillRect(i * total, maxHeight + bonusHeight - value, barWidth, value * 2 + 1);
 		}
   }
-  // we have to connect the MediaElementSource with the analyser 
-  // audioSrc.connect(analyser);
-  // audioSrc.connect(ctx.destination);
-
-  // analyser.minDecibels = -90;
-  // analyser.maxDecibels = 0;
-  // analyser.fftSize = 4096;
-  // analyser.smoothingTimeConstant = .9;
-  // // we could configure the analyser: e.g. analyser.fftSize (for further infos read the spec)
- 
-  // // frequencyBinCount tells you how many values you'll receive from the analyser
-  // let frequencyData = new Uint8Array(analyser.frequencyBinCount);
-
-  // const canvas = document.querySelector("canvas");
-  // const ctx2 = canvas.getContext("2d");
- 
-  // we're ready to receive some data!
-  // loop
 };

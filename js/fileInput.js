@@ -5,7 +5,7 @@ document.querySelector("input").addEventListener("change", event => {
   let output = [];
   for(const file of files) {
     if((file.type.match("audio.*") || file.type.match("video.*")) && !allUploadedFiles.find(e => searchFiles(e, file))) {
-      allUploadedFiles.push(file);
+      allUploadedFiles.push({file});
       newFile = true;
     }
   }
@@ -24,7 +24,7 @@ const fileUploadElem = document.querySelector(".file-upload");
 
 function setAudioTrack(index) {
   if(allUploadedFiles.length == 0) return;
-  const track = allUploadedFiles[index];
+  const track = allUploadedFiles[index].file;
   playIndex = index;
   
   videoElem.src = URL.createObjectURL(track);

@@ -2,6 +2,7 @@ function render() {
 	
 	updateAudioTimeToSlider(sliderContainer, videoElem);
 	canvasRenderF?.();
+	audioWaveAnimationF?.();
 
 
 
