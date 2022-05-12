@@ -11,7 +11,7 @@ videoElem.addEventListener("play", e => {
 	audioSrc.connect(audioCtx.destination);
 	
 	analyser.fftSize = 4096;
-	analyser.smoothingTimeConstant = 0.8;
+	analyser.smoothingTimeConstant = 0.9;
 	const frequencyData = new Uint8Array(analyser.frequencyBinCount);
 
 	canvasRenderF = renderBackgroundCanvas2;
@@ -20,12 +20,13 @@ videoElem.addEventListener("play", e => {
 		const gap = 2;
 		const barWidth = 10;
 		const total = (gap + barWidth);
-		const minSaturation = 80;
+		const height = window.innerHeight - 200;
 	
 		analyser.getByteFrequencyData(frequencyData);
 		const barAmount = Math.floor(window.innerWidth / total);
 		const blockSize = Math.max(Math.floor((frequencyData.length - 500) / barAmount), 1);
 		backgroundCanvas.width = (window.innerWidth - window.innerWidth % total) - gap;
+		backgroundCanvas.height = height
 
 		for(let i = 0; i < barAmount; i++) {
 			const blockStart = blockSize * i;
@@ -36,7 +37,7 @@ videoElem.addEventListener("play", e => {
 	
 			const value = sum / blockSize;
 			backgroundCtx.fillStyle = `hsl(${Math.round(i / barAmount * 360)}deg 70% 60%)`;
-			backgroundCtx.fillRect(i * total, 0, barWidth, Math.max(value * 2, 2));
+			backgroundCtx.fillRect(i * total, 0, barWidth, Math.max(value / 255 * height, 2));
 		}
 	}
 }, {once: true});
